@@ -4,7 +4,7 @@ def fibonacci(user_input):
     i = 1
     variable = 0
     variable_2 = 1
-    while i < int(user_input)+1:
+    while i < user_input+1:
         if i == 1:
             print(n, end=' ')
             i += 1
@@ -25,9 +25,10 @@ def fibonacci(user_input):
 
 can_continue = False
 while not can_continue:
-    user_input = input('Type here any integer number: ')
-    if user_input.isdigit():
-        fibonacci(user_input)
-        can_continue = True
-    else:
-        print('You have to insert an integer number')
+    user_input = int(input('Type here any integer number: '))
+    fibonacci(user_input)
+#    if user_input.isdigit():
+#        fibonacci(user_input)
+    can_continue = True
+#    else:
+#        print('You have to insert an integer number')
