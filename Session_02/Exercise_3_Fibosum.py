@@ -54,7 +54,3 @@ def sumfibonacci_2():
 
 sumfibonacci()
 sumfibonacci_2()
-
-
-
-
