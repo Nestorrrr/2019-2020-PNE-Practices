@@ -1,5 +1,5 @@
 def counter():
-    print('Total lenght: ',len('CATGTAGACTAG'))
+    #print('Total length: ',len('CATGTAGACTAG'))
     i = 0
     counter_A = 0
     counter_C = 0
@@ -27,4 +27,4 @@ def counter():
     print('T: ', counter_T)
 
 
-counter()
+print(counter())
