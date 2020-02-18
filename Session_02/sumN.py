@@ -9,5 +9,5 @@ def sumn(n):
 
 
 # -- The main program starts here
-print("Sum of the 20 first integers: ", sumn(20))
-print("Sum of the 100 first integers: ", sumn(100))
+print("Sum of the 5 first integers: ", sumn(5))
+print("Sum of the 10 first integers: ", sumn(10))

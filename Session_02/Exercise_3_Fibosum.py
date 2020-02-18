@@ -49,7 +49,7 @@ def sumfibonacci_2():
             i += 1
             lista.append(n)
             total += n
-    print('Sum of the First 5 terms of the Fibonacci series: ', total)
+    print('Sum of the First 10 terms of the Fibonacci series: ', total)
 
 
 sumfibonacci()

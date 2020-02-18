@@ -4,13 +4,13 @@ def fibonacci(user_input):
     i = 1
     variable = 0
     variable_2 = 1
-    while i < user_input+1:
+    while i < user_input+2:
         if i == 1:
-            print(n, end=' ')
+            #print(n, end=' ')
             i += 1
             my_list.append(n)
         elif i == 2:
-            print(n + 1, end=' ')
+            #print(n + 1, end=' ')
             i += 1
             n += 1
             my_list.append(n)
@@ -20,15 +20,22 @@ def fibonacci(user_input):
             variable_2 += 1
             i += 1
             my_list.append(n)
-            print(n, end=' ')
+            if i == user_input +2:
+                print(user_input,'th Fibonacci term: ',n, end=' ')
 
 
 can_continue = False
 while not can_continue:
-    user_input = int(input('Type here any integer number: '))
-    fibonacci(user_input)
-#    if user_input.isdigit():
-#        fibonacci(user_input)
-    can_continue = True
-#    else:
+    finish = False
+    times = 0
+    while not finish:
+        user_input = int(input('Type here any integer number: '))
+        fibonacci(user_input)
+#       if user_input.isdigit():
+#           fibonacci(user_input)
+        times += 1
+        if times == 3:
+            finish = True
+            can_continue = True
+#       else:
 #        print('You have to insert an integer number')
