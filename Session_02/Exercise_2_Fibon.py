@@ -21,7 +21,7 @@ def fibonacci(user_input):
             i += 1
             my_list.append(n)
             if i == user_input +2:
-                print(user_input,'th Fibonacci term: ',n, end=' ')
+                print(user_input,'th Fibonacci term: ',n)
 
 
 can_continue = False
