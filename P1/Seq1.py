@@ -65,15 +65,12 @@ class Seq:
 
             return sol
 
+    def read_fasta(self,filename):
 
-def print_seqs(seqs):
-    for seq in seqs:
-        print(f'Sequence {seqs.index(seq)}: (Length: {seq.len()})  {seq}')
+        contents = Path(filename).read_text()
+        body = contents.split('\n')[1:]
+        self.strbases = "".join(body)
+        return self
 
 
-def generate_seqs(pattern, number):
-    new_seq = []
 
-    for i in range(1, number + 1):
-        new_seq.append(Seq(pattern * i))
-    return new_seq
