@@ -72,5 +72,3 @@ class Seq:
         self.strbases = "".join(body)
         return self
 
-
-
