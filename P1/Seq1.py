@@ -53,6 +53,19 @@ class Seq:
         else:
             return self.strbases[::-1]
 
+    def complement(self):
+        if self.strbases in [self.NULL, self.ERROR]:
+            return self.strbases
+        else:
+            bases = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
+
+            sol = ""
+            for b in self.strbases:
+                sol += bases[b]
+
+            return sol
+
+
 def print_seqs(seqs):
     for seq in seqs:
         print(f'Sequence {seqs.index(seq)}: (Length: {seq.len()})  {seq}')
