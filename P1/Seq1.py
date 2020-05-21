@@ -47,6 +47,11 @@ class Seq:
         sol = {'A': self.count_base('A'), 'T': self.count_base('T'), 'C': self.count_base('C'), 'G': self.count_base('G')}
         return sol
 
+    def reverse(self):
+        if self.strbases in [self.NULL, self.ERROR]:
+            return self.strbases
+        else:
+            return self.strbases[::-1]
 
 def print_seqs(seqs):
     for seq in seqs:
