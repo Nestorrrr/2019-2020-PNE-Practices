@@ -1,6 +1,6 @@
 from Seq1 import Seq
 
-print('-----| Practice 1, Exercise 3 |------')
+print('-----| Practice 1, Exercise 4 |------')
 
 sequence1 = Seq()
 sequence2 = Seq("ACTGA")

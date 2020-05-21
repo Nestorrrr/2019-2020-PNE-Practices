@@ -2,7 +2,6 @@ from pathlib import Path
 
 
 class Seq:
-
     NULL = "NULL"
     ERROR = "ERROR"
 
@@ -39,6 +38,10 @@ class Seq:
             return 0
         else:
             return len(self.strbases)
+
+
+    def count_base(self, base):
+        return self.strabases.count(base)
 
 
 def print_seqs(seqs):
