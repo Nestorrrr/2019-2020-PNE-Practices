@@ -1,0 +1,9 @@
+Destination IP   |   	Name (if known)	 |Time
+192.168.1.38	 | Self	                 |0.0 ms, 0.0 ms, 0.0 ms
+212.128.255.129	 | f-l3208-pc01          |
+8.8.8.8	         | Google                |6.0 ms, 6.0 ms, 6.0 ms
+192.168.1.37     | Mobile                |6.0 ms, 999.0 ms, 315 ms
+212.128.240.50   | www.urjc.es           |9.0 ms, 9.0 ms, 9.0 ms
+140.82.118.3     | github.com            |37.0 ms, 37.0 ms, 37.0 ms
+91.198.174.192   | wikipedia.org         |37.0 ms, 38.0 ms, 37.0 ms
+103.223.184.84   | newdomain.com.au      |328.0 ms, 328.0 ms, 328.0 ms
