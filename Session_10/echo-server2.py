@@ -1,4 +1,5 @@
 import socket
+import termcolor
 
 # -- Step 1: create the socket
 ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -55,10 +56,11 @@ while True:
         msg = msg_raw.decode()
 
         # -- Print the received message
-        print(f"Message received: {msg}")
+        print(f"Message received: ",end= "")
+        termcolor.cprint(msg,"green")
 
         # -- Send a response message to the client
-        response = "HELLO. I am the Happy Server :-)\n"
+        response = f"ECHO: {msg}"
 
         # -- The message has to be encoded into bytes
         cs.send(response.encode())
