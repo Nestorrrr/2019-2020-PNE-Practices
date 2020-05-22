@@ -19,10 +19,11 @@ for i in range(5):
     cmd = f"GET {i}"
     print(f"{cmd}: {c.talk(cmd)}", end="")
 
-# -- Test 3: INFO
 # -- Get the sequence 0 for testing
 seq = c.talk("GET 0")
 print()
+
+# -- Test 3: INFO
 print("* Testing INFO...")
 cmd = f"INFO {seq}"
 print(c.talk(cmd))
