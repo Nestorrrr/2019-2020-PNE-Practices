@@ -5,8 +5,3 @@ PORT = 8080
 
 c = Client(IP, PORT)
 
-times = 0
-
-while times < 5:
-    c.debug_talk(f"Message {times}")
-    times += 1
