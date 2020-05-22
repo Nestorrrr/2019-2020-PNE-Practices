@@ -1,4 +1,3 @@
-
 from Client0 import Client
 from Seq1 import Seq
 
@@ -26,4 +25,5 @@ c.talk(f"Sending {GENE} Gene to the server, in fragments of {n} bases...")
 
 for i in range (5):
     frag = bases[i*n:(i+1)*n]
+    print(f"Fragment {i+1}: {frag}")
     c.talk(f"Fragment {i+1}: {frag}")
