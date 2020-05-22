@@ -3,7 +3,7 @@ from Client0 import Client
 print(f"-----| Practice 2, Exercise 2 |------")
 
 # -- Parameters of the server to talk to
-ip = "192.168.1.38"
+ip = "127.0.0.1"
 port = 8080
 
 # -- Create a client object
