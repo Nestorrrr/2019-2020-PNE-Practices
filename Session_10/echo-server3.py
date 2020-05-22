@@ -11,15 +11,24 @@ ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 PORT = 8080
 IP = "127.0.0.1"
 
+# -- Step 1: create the socket
+ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# -- Optional: This is for avoiding the problem of Port already in use
+ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
 # -- Step 2: Bind the socket to server's IP and PORT
 ls.bind((IP, PORT))
 
 # -- Step 3: Configure the socket for listening
 ls.listen()
 
+numb_conections = 0
+conexions = []
+
 print("The server is configured!")
 
-while True:
+while numb_conections < 5:
     # -- Waits for a client to connect
     print("Waiting for Clients to connect")
 
@@ -39,8 +48,11 @@ while True:
     # -- Execute this part if there are no errors
     else:
 
-        print("A client has connected to the server!")
+        numb_conections += 1
 
+        print(f"CONNECTION: {numb_conections}. Client IP,PORT: {client_ip_port} ")
+
+        conexions.append(f"Client {numb_conections-1}: ({client_ip_port})")
         # -- Read the message from the client
         # -- The received message is in raw bytes
         msg_raw = cs.recv(2048)
@@ -54,10 +66,18 @@ while True:
         termcolor.cprint(msg,"green")
 
         # -- Send a response message to the client
-        response = f"ECHO: {msg}"
+        response = f"ECHO: {msg} \n"
 
         # -- The message has to be encoded into bytes
         cs.send(response.encode())
 
         # -- Close the data socket
         cs.close()
+
+
+print("The following clients has connected to the server: ")
+for i, c in enumerate(conexions):
+    print(f" {c}")
+
+# -- Close the socket
+ls.close()

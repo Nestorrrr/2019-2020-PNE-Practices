@@ -23,6 +23,8 @@ ls.bind((IP, PORT))
 # -- Step 3: Configure the socket for listening
 ls.listen()
 
+numb_conections = 0
+
 print("The server is configured!")
 
 while True:
@@ -45,7 +47,9 @@ while True:
     # -- Execute this part if there are no errors
     else:
 
-        print("A client has connected to the server!")
+        numb_conections += 1
+
+        print(f"CONNECTION: {numb_conections}. Client IP,PORT: {client_ip_port} ")
 
         # -- Read the message from the client
         # -- The received message is in raw bytes
@@ -60,7 +64,7 @@ while True:
         termcolor.cprint(msg,"green")
 
         # -- Send a response message to the client
-        response = f"ECHO: {msg}"
+        response = f"ECHO: {msg} \n"
 
         # -- The message has to be encoded into bytes
         cs.send(response.encode())
