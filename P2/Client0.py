@@ -6,7 +6,7 @@ class Client:
         self.ip = ip
         self.port = port
 
-    def ping():
+    def ping(self):
         print("Ok")
 
     def __str__(self):
@@ -21,7 +21,7 @@ class Client:
 
         return msg_from_server
 
-    def talk(self,msg):
+    def talk(self, msg):
         # -- Create the socket
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
