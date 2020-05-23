@@ -25,22 +25,27 @@ def process_client(s):
     termcolor.cprint(req_line, 'green')
 
     FOLDER = '../P4/'
+    file_request = req_line.split()[1]
 
-    if '/info/A' in req_line:
-        FILENAME = 'A.html'
-        body = read(FOLDER + FILENAME)
+    if file_request == '/':
+        filename = 'index.html'
+
+    elif '/info/A' in req_line:
+        filename = 'A.html'
+
     elif '/info/C' in req_line:
-        FILENAME = 'C.html'
-        body = read(FOLDER + FILENAME)
+        filename = 'C.html'
+
     elif '/info/G' in req_line:
-        FILENAME = 'G.html'
-        body = read(FOLDER + FILENAME)
+        filename = 'G.html'
+
     elif '/info/T' in req_line:
-        FILENAME = 'T.html'
-        body = read(FOLDER + FILENAME)
+        filename = 'T.html'
+
     else:
-        FILENAME = 'Error.html'
-        body = read(FOLDER + FILENAME)
+        filename = 'Error.html'
+
+    body = read(FOLDER + filename)
 
     status_line = 'HTTP/1.1 200 OK\n'
     header = 'Content-Type: text/html\n'
