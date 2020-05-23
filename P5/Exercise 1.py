@@ -20,27 +20,18 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         termcolor.cprint(self.requestline, 'green')
 
         FOLDER = "../P5/"
+        EXT = '.html'
         print(self.path)
+
         if self.path == '/' or self.path == '/index.html':
             file = 'index.html'
 
-        elif self.path == '/info/A':
-            file = 'info/A.html'
-
-        elif '/info/C' in self.path:
-            file = 'info/C.html'
-
-        elif '/info/G' in self.path:
-            file = 'info/G.html'
-
-        elif '/info/T' in self.path:
-            file = 'info/T.html'
-
         else:
-            file = 'Error.html'
+            file = self.path
+            file += '.html'
 
         try:
-            contents = read_file(FOLDER + file)
+            contents = read_file(FOLDER + file )
             self.send_response(200)
 
         except FileNotFoundError:
