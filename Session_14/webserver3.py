@@ -1,9 +1,9 @@
 import http.server
 import socketserver
+import termcolor
 
 # Define the Server's port
 PORT = 8080
-
 
 # -- This is for preventing the error: "Port already in use"
 socketserver.TCPServer.allow_reuse_address = True
@@ -18,7 +18,16 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         in the HTTP protocol request"""
 
         # We just print a message
-        print("GET received!")
+        print("GET received! Request line:")
+
+        # Print the request line
+        termcolor.cprint("  " + self.requestline, 'green')
+
+        # Print the command received (should be GET)
+        print("  Command: " + self.command)
+
+        # Print the resource requested (the path)
+        print("  Path: " + self.path)
 
         # IN this simple server version:
         # We are NOT processing the client's request
@@ -36,3 +45,12 @@ Handler = TestHandler
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
 
     print("Serving at PORT", PORT)
+
+    # -- Main loop: Attend the client. Whenever there is a new
+    # -- clint, the handler is called
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("")
+        print("Stoped by the user")
+        httpd.server_close()
