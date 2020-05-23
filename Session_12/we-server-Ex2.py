@@ -35,7 +35,7 @@ def process_client(s):
     """
 
     status_line = 'HTTP/1.1 200 OK\n'
-    header = 'Content-Type: text/html\n'
+    header = 'Content-Type: text/plain\n'
     header += f'Content-Length: {len(body)}\n'
 
     response_msg = status_line + header + '\n' + body

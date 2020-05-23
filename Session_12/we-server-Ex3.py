@@ -36,7 +36,7 @@ def process_client(s):
 
     status_line = 'HTTP/1.1 200 OK\n'
     header = 'Content-Type: text/html\n'
-    header += f'Content-Length: {len(body)}\n'
+    header += f'Content-Length: {2}\n'
 
     response_msg = status_line + header + '\n' + body
     cs.send(response_msg.encode())
