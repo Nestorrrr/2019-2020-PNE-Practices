@@ -88,11 +88,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         conn.request('GET', request)
 
                     except ConnectionRefusedError:
-                        print('ERROR! Cannot connect to the Server')
+                        print('Error!!! Cannot connect to the Server')
                         exit()
 
                     response = conn.getresponse()
-                    body = response.read().decode('utf_8')
+                    body = response.read().decode('utf-8')
                     limit_list = []
                     body = json.loads(body)
                     limit = body['species']
@@ -126,8 +126,59 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                     <meta charset = "utf-8">
                                      <title> Karyotype </title >
                                 </head >
-                                <body  style="background-color:rgb(255,255,182)">
+                                <body  style="background-color:#DB7093">
                                 """
+                try:
+                    get_value = arguments[1]
+                    specie = get_value.split('?')
+                    specie_method, sp_name = specie[0].split('=')
+
+                    full_name = ''
+                    for n in range(0, len(sp_name)):
+                        if sp_name[n] == '+':
+                            full_name += '%20'
+                        else:
+                            full_name += sp_name[n]
+
+                    endpoint = 'info/assembly/'
+                    parameters = '?content-type=application/json'
+                    request = endpoint + full_name + parameters
+
+                    try:
+                        conn.request('GET', request)
+
+                    except ConnectionRefusedError:
+                        print('Error!!! Cannot connect to the Server')
+                        exit()
+
+                    response = conn.getresponse()
+                    body = response.read().decode('utf-8')
+                    body = json.loads(body)
+                    karyotype_info = body['karyotype']
+
+                    full_name = full_name.replace('%20',' ')
+                    contents += f"""<h2 style="color:#DB7093;"> The names of the {full_name} chromosomes are:</h2>"""
+
+                    for chromosome in karyotype_info:
+                        contents += f"""<p> - {chromosome} </p>"""
+
+                    contents += f"""<a href="/">Main page </a></body></html>"""
+
+                except KeyError:
+                    contents = f"""<!DOCTYPE html> 
+                                    <html lang="en">
+                                        <head>
+                                            <meta charset="UTF-8">
+                                            <title>Error</title>
+                                        </head>
+                                        <body style="background-color:PALETURQUOISE">
+                                            <h1 style="color:#DB7093;">ERROR</h1>
+                                            <p style="color:#DB7093;"> Selected specie's karyotype information is not available </p>
+                                            <p><a href="/Karyotype?Specie={full_name}">Check if your specie is in our database</a><br><br>
+                                            <p style="color:#DB7093;"> Introduce a specie in the database to find its karyotype </p>
+                                            <a href="/"> Main page </a> </p>
+                                            </body>
+                                            </html>"""
 
                     #else:
          #   contents = Path('Error.html').read_text()
