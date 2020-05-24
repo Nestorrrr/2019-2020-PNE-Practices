@@ -52,4 +52,3 @@ for item in GENES:
             max= seq.count()[item]
             Key= item
     print(Key)
-    
