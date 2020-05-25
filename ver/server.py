@@ -13,6 +13,7 @@ server = 'rest.ensembl.org'   #sever used
 parameters = '?content-type=application/json'  #json parameters
 conn = http.client.HTTPConnection(server)  #http connection to the server
 
+# -- This is for preventing the error: "Port already in use"
 socketserver.TCPServer.allow_reuse_address = True
 
 class TestHandler(http.server.BaseHTTPRequestHandler):
@@ -49,9 +50,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                      <meta charset = "utf-8" >
                                      <title>List of species in the browser</title >
                                     </head >
-                                    <body  style="background-color:#FFF0F5">
-                                     <h1 style="color:#CD5C5C;"> List of species in the genome database</h1>
-                                     <p style="color:#CD5C5C;"><b>The total number of species in ensembl is: 286</b></p>
+                                    <body  style="background-color:rgb(255,255,182)">
+                                     <h1 style="color:rgb(21,105,150);"> List of species in the genome database</h1>
+                                     <p style="color:rgb(21,105,150);"><b>The total number of species in ensembl is: 286</b></p>
                                       """
 
 
@@ -75,8 +76,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                                             </head>
                                                             <body style="background-color:rgb(255,255,182)">
                                                                 <h1>ERROR</h1>
-                                                                <p> Selected specie's karyotype information is not available </p>
-                                                                <p> Introduce a specie in the database to find its karyotype </p>
+                                                                <p> Limit must be a number </p>
                                                                 <a href="/"> Main page </a> </p>
                                                                 </body>
                                                                 </html>"""
@@ -94,7 +94,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                     <p>Your search's limit is equal or less than 0</p>
                                   </body>
                                 </html>"""
-                if index > 0: #index more than 0
+                if index > 0: #index more than 0 --> normal execution of the program
                     #html to print the total numbers of species selected
                     contents += f"""<p>The number of species you selected are: {index} </p>"""
 
@@ -204,7 +204,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     for chromosome in karyotype_data: #iteration to print all the chromosomes names
                         contents += f"""<p> - {chromosome} </p>"""
 
-                    contents += f"""<a href="/">Main page </a></body></html>"""  # link to return to main page
+                    contents += f"""<a href="/">Main page </a></body></html>"""  #link to return to main page
 
                 except KeyError: #exception in case no value or an incorrect format value is inputed
                     contents = f"""<!DOCTYPE html> 
@@ -216,7 +216,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                         <body style="background-color:rgb(255,255,182)">
                                             <h1>ERROR</h1>
                                             <p> Selected specie's karyotype information is not available </p>
-                                            <p><a href="/Karyotype?Specie={full_name}">Check if your specie is in our database</a><br><br>
+                                            <p><a href="/karyotype?Specie={full_name}">Check if your specie is in our database</a><br><br>
                                             <p> Introduce a specie in the database to find its karyotype </p>
                                             <a href="/"> Main page </a> </p>
                                             </body>
@@ -243,7 +243,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                  <meta charset = "utf-8" >
                                  <title>ERROR</title >
                                 </head>
-                                <body  style="background-color:rgb(255,255,182)">
+                                <body  style="background-color:#FFE4E1">
                                 <p>ERROR INVALID VALUE</p>
                                 <p> Introduce a valid integer value for chromosome of this species</p>
                                 <a href="/">Main page</a></body></html>"""
@@ -278,27 +278,33 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
                     for chromo in chromosome_data: #iteration to get all the chromosomes within the list of data
 
-                        if chromo["name"] == str(chromosome):
+                        if chromo["name"] == str(chromosome): #to print the cromosome length
                             length = chromo["length"]
-                            contents = f"""<!DOCTYPE html><html lang = "en"><head><meta charset = "utf-8" ><title> Length Chromosome</title >
-                                            </head ><body  style="background-color:rgb(255,255,182)"><h2 style="color:rgb(21,105,150);"> The length of the '{chromosome}' {specie} chromosome is: {length}</h2><a href="/"> Main page</a"""
+                            contents = f"""<!DOCTYPE html>
+                                                <html lang = "en">
+                                                    <head>
+                                                        <meta charset = "utf-8" >
+                                                        <title> Length Chromosome</title >
+                                                    </head >
+                                                    <body  style="background-color:#FFEFD5; color:#A52A2A">
+                                                    <h2 style="color:#A52A2A;"> The length of the '{chromosome}' {specie} chromosome is: {length}</h2>
+                                                    <a href="/"> Main page</a"""
+
                 except KeyError: #exception in case no value or an incorrect format value is inputed
                     contents = f"""<!DOCTYPE html> 
-                                                    <html lang="en"> 
-                                                        <head>
-                                                            <meta charset="UTF-8">
-                                                            <title>Error</title>
-                                                        </head>
-                                                        <body style="background-color:rgb(255,255,182)">
+                                        <html lang="en"> 
+                                            <head>
+                                                <meta charset="UTF-8">
+                                                <title>Error</title>
+                                            </head>
+                                                <body style="background-color:#FFEFD5; color:#A52A2A">
                                                             <h1>ERROR</h1>
-                                                            <p> Selected specie's cromosome length information is not available </p>
-                                                            <p> Introduce a specie in the database (with a proper chromosome) to find its length information </p>
-                                                            <p><a href="/Karyotype?Specie={full_name}">Check if your specie is in our database</a><br><br>
+                                                            <p style = 'color:#A52A2A'> Selected specie's cromosome length information is not available </p>
+                                                            <p><a href="/karyotype?Specie={full_name}">Check if your specie is in our database</a><br><br>
+                                                            <p style = 'color:#A52A2A'> Introduce a specie in the database (with a proper chromosome) to find its length information </p>
                                                             <a href="/"> Main page </a> </p>
                                                             </body>
                                                             </html>"""
-
-
      # Open the form1.html file
             # Read the index from th
 
@@ -322,6 +328,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         except (KeyError, ValueError, IndexError, TypeError):
             contents = Path('error.html').read_text()
+
 
 # ------------------------
 # - Server MAIN program (taken from previous practices)

@@ -14,6 +14,7 @@ conn = http.client.HTTPConnection(database)
 
 socketserver.TCPServer.allow_reuse_address = True
 
+
 class TestHandler(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self):
@@ -31,6 +32,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             if first_argument == '/':
                 contents = Path('index.html').read_text()
                 self.send_response(200)
+
+            # --------------------------------------------listSpecies--------------------------------------------
 
             elif first_argument == '/listSpecies':
                 contents = f"""<!DOCTYPE html> 
@@ -91,6 +94,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         print('Error!!! Cannot connect to the Server')
                         exit()
 
+                    # ----------------------Main program of listSpecies------------------------
+
                     response = conn.getresponse()
                     body = response.read().decode('utf-8')
                     limit_list = []
@@ -118,8 +123,10 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                     contents += f"""<p> - {specie} </p>"""
                         contents += f"""<a href="/">Main page</a></body></html>"""
 
+            # ------------------------------------------karyotype---------------------------------------------------------------------------------
 
-            elif first_argument == '/karyotype':
+            elif first_argument == '/karyotype':  # part3, returns the names of the cromosomes of the chosen species
+
                 contents = f"""<!DOCTYPE html>
                                 <html lang = "en">
                                 <head>
@@ -128,38 +135,45 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                 </head >
                                 <body  style="background-color:#DB7093">
                                 """
+
                 try:
+
                     get_value = arguments[1]
                     specie = get_value.split('?')
-                    specie_method, sp_name = specie[0].split('=')
+                    specie_method, name_sp = specie[0].split("=")
+                    full_name = ""
 
-                    full_name = ''
-                    for n in range(0, len(sp_name)):
-                        if sp_name[n] == '+':
-                            full_name += '%20'
+                    for n in range(0, len(
+                            name_sp)):
+
+                        if name_sp[n] == "+":
+                            full_name += "%20"
+
                         else:
-                            full_name += sp_name[n]
+                            full_name += name_sp[n]
 
                     endpoint = 'info/assembly/'
                     parameters = '?content-type=application/json'
                     request = endpoint + full_name + parameters
 
                     try:
-                        conn.request('GET', request)
+                        conn.request("GET", request)
 
                     except ConnectionRefusedError:
-                        print('Error!!! Cannot connect to the Server')
+                        print("ERROR! Cannot connect to the Server")
                         exit()
 
+                    # ----------------------Main program of karyotype------------------------
+
                     response = conn.getresponse()
-                    body = response.read().decode('utf-8')
+
+                    body = response.read().decode("utf-8")
                     body = json.loads(body)
-                    karyotype_info = body['karyotype']
+                    karyotype_data = body["karyotype"]
+                    full_name = full_name.replace("%20"," ")
+                    contents += f"""<h2 style="color:#0000FF;"> The names of the {full_name} chromosomes are:</h2>"""
 
-                    full_name = full_name.replace('%20',' ')
-                    contents += f"""<h2 style="color:#DB7093;"> The names of the {full_name} chromosomes are:</h2>"""
-
-                    for chromosome in karyotype_info:
+                    for chromosome in karyotype_data:
                         contents += f"""<p> - {chromosome} </p>"""
 
                     contents += f"""<a href="/">Main page </a></body></html>"""
@@ -180,30 +194,31 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                             </body>
                                             </html>"""
 
-            elif first_argument == '/chromosomeLenght':
+            # --------------------------------------------Cromosome length--------------------------------------------
+
+            elif first_argument == "/chromosomeLength":
 
                 try:
                     pair = arguments[1]
-
                     pairs = pair.split('&')
-                    specie_name, specie = pairs[0].split('=')
-                    chromosome_index, chromosome = pairs[1].split('=')
+                    specie_name, specie = pairs[0].split("=")
+                    chromosome_index, chromosome = pairs[1].split("=")
 
-                    contents= f"""<!DOCTYPE html>
-                                        <html lang = "en">
-                                        <head>
-                                         <meta charset = "utf-8" >
-                                         <title>ERROR</title >
-                                        </head>
-                                        <body  style="background-color:#FFE4E1">
-                                        <p>ERROR INVALID VALUE</p>
-                                        <p> Introduce a valid integer value for chromosome of this species</p>
-                                        <a href="/">Main page</a></body></html>"""
+                    contents = f"""<!DOCTYPE html>
+                                <html lang = "en">
+                                <head>
+                                 <meta charset = "utf-8" >
+                                 <title>ERROR</title >
+                                </head>
+                                <body  style="background-color:#FFE4E1">
+                                <p>ERROR INVALID VALUE</p>
+                                <p> Introduce a valid integer value for chromosome of this species</p>
+                                <a href="/">Main page</a></body></html>"""
 
-                    full_name = ''
+                    full_name = ""
                     for n in range(0, len(specie)):
-                        if specie[n] == '+':
-                            full_name += '%20'
+                        if specie[n] == "+":
+                            full_name += "%20"
                         else:
                             full_name += specie[n]
 
@@ -212,23 +227,22 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     request = endpoint + full_name + parameters
 
                     try:
-                        conn.request('GET', request)
-
+                        conn.request("GET", request)
                     except ConnectionRefusedError:
-                        print('Error!!! Cannot connect to the Server')
+                        print("ERROR! Cannot connect to the Server")
                         exit()
 
+                    # ----------------------Main program of chromosome length------------------------
 
-                    response = conn.getresponse
+                    response = conn.getresponse()
                     body = response.read().decode('utf-8')
                     body = json.loads(body)
-
-                    chromosome_data = body['top_level_region']
-                    specie= specie.replace('+',' ')
+                    chromosome_data = body["top_level_region"]
+                    specie = specie.replace("+"," ")
 
                     for chromo in chromosome_data:
-                        if chromo['name'] == str(chromosome):
-                            length = chromo['length']
+                        if chromo["name"] == str(chromosome):
+                            length = chromo["length"]
                             contents = f"""<!DOCTYPE html>
                                                 <html lang = "en">
                                                     <head>
@@ -237,29 +251,31 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                                     </head >
                                                     <body  style="background-color:#FFEFD5; color:#A52A2A">
                                                     <h2 style="color:#A52A2A;"> The length of the '{chromosome}' {specie} chromosome is: {length}</h2>
-                                                    <a href="/"> Main page</a>"""
+                                                    <a href="/"> Main page</a"""
+
                 except KeyError:
-                    contents = f"""<!DOCTYPE html>
-                                        <html lang="en">
+                    contents = f"""<!DOCTYPE html> 
+                                        <html lang="en"> 
                                             <head>
                                                 <meta charset="UTF-8">
-                                                <title >Error</title>
+                                                <title>Error</title>
                                             </head>
                                                 <body style="background-color:#FFEFD5; color:#A52A2A">
-                                                    <h1>ERROR</h1>
-                                                    <p style = 'color:#A52A2A'> Selected specie's cromosome length information is not available </p>
-                                                    <p style = 'color:#A52A2A'> Introduce a specie in the database (with a proper chromosome) to find its length information </p>
-                                                    <p><a href="/Karyotype?Specie={full_name}">Check if your specie is in our database</a><br><br>
-                                                    <a href="/"> Main page </a> </p>
-                                                    </body>
-                                                    </html>"""
+                                                            <h1>ERROR</h1>
+                                                            <p style = 'color:#A52A2A'> Selected specie's cromosome length information is not available </p>
+                                                            <p><a href="/karyotype?Specie={full_name}">Check if your specie is in our database</a><br><br>
+                                                            <p style = 'color:#A52A2A'> Introduce a specie in the database (with a proper chromosome) to find its length information </p>
+                                                            <a href="/"> Main page </a> </p>
+                                                            </body>
+                                                            </html>"""
 
             if 'json=1' in req_line:
-                self.send_header('Content/Type', 'application/json')
-                self.send_header('Content/Length', len(str.encode(contents)))
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', len(str.encode(contents)))
+
             else:
-                self.send_header('Contest/Type', 'text/html')
-                self.send_header('Contest/Length', len(str.encode(contents)))
+                self.send_header('Content-Type', 'text/html')
+                self.send_header('Content-Length', len(str.encode(contents)))
 
             self.end_headers()
             self.wfile.write(contents.encode())
@@ -272,12 +288,12 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
 Handler = TestHandler
 
-with socketserver.TCPServer(('', PORT), Handler) as httpd:
-    print('Server at PORT', PORT)
+with socketserver.TCPServer(("", PORT), Handler) as httpd:
+    print("Serving at PORT", PORT)
+
     try:
         httpd.serve_forever()
-
     except KeyboardInterrupt:
-        print('')
-        print('Stopped by the user')
+        print("")
+        print("Stoped by the user")
         httpd.server_close()
